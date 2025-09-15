@@ -1,5 +1,13 @@
 # AWS Resources Change Alert
 
+[![Python](https://img.shields.io/badge/Python-3.13-blue.svg)](https://www.python.org/)
+[![AWS Lambda](https://img.shields.io/badge/AWS-Lambda-orange.svg)](https://aws.amazon.com/lambda/)
+[![AWS CloudTrail](https://img.shields.io/badge/AWS-CloudTrail-orange.svg)](https://aws.amazon.com/cloudtrail/)
+[![AWS SAM](https://img.shields.io/badge/AWS-SAM-orange.svg)](https://aws.amazon.com/serverless/sam/)
+[![Amazon Bedrock](https://img.shields.io/badge/Amazon-Bedrock-purple.svg)](https://aws.amazon.com/bedrock/)
+[![Poetry](https://img.shields.io/badge/Poetry-dependency%20management-blue.svg)](https://python-poetry.org/)
+[![Just](https://img.shields.io/badge/Just-task%20runner-green.svg)](https://github.com/casey/just)
+
 AWS CloudTrailイベントを監視し、重要なリソース変更をSlackに通知するサーバーレスアプリケーション
 
 ## このリポジトリについて
