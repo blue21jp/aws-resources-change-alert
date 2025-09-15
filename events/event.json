@@ -1,0 +1,51 @@
+{
+  "version": "0",
+  "id": "abcd-1234-efgh-5678",
+  "detail-type": "AWS API Call via CloudTrail",
+  "source": "aws.iam",
+  "account": "123456789012",
+  "time": "2023-10-01T12:34:56Z",
+  "region": "ap-northeast-1",
+  "resources": [],
+  "detail": {
+    "eventVersion": "1.08",
+    "userIdentity": {
+      "type": "IAMUser",
+      "principalId": "AIDASAMPLEID",
+      "arn": "arn:aws:iam::123456789012:user/admin-user",
+      "accountId": "123456789012",
+      "accessKeyId": "ASIASAMPLEKEY",
+      "userName": "admin-user"
+    },
+    "eventTime": "2023-10-01T12:34:56Z",
+    "eventSource": "iam.amazonaws.com",
+    "eventName": "CreateUser",
+    "awsRegion": "ap-northeast-1",
+    "sourceIPAddress": "192.0.2.1",
+    "userAgent": "aws-cli/2.x.x Python/3.x.x Boto3/1.x.x",
+    "requestParameters": {
+      "userName": "new-test-user",
+      "path": "/",
+      "tags": [
+        {
+          "key": "Department",
+          "value": "Engineering"
+        }
+      ]
+    },
+    "responseElements": {
+      "user": {
+        "path": "/",
+        "userName": "new-test-user",
+        "userId": "AIDACKCEVSQ6C2EXAMPLE",
+        "arn": "arn:aws:iam::123456789012:user/new-test-user",
+        "createDate": "2023-10-01T12:34:56Z"
+      }
+    },
+    "requestID": "abcd-efgh-ijkl-mnop",
+    "eventID": "qrst-uvwx-yzab-cdef",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true
+  }
+}

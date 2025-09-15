@@ -1,0 +1,80 @@
+name: Lambda deploy
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  AWS_ROLE_ARN: ${{ secrets.AWS_IAM_ROLE_RAIN }}
+  AWS_PAGER: ""  # AWS CLIページャーを無効化
+
+permissions:
+  id-token: write  # OIDC認証用
+  contents: read
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: install awscli
+        if: github.actor == 'nektos/act'
+        run: |
+          apt-get update && apt-get install -y gettext-base
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip -q awscliv2.zip
+          ./aws/install
+
+      - name: install just
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+          just --version
+
+      - name: install sam-cli
+        uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.13'
+
+      - name: Configure AWS credentials from IAM Role
+        if: github.actor != 'nektos/act'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{env.AWS_ROLE_ARN}}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: rm profile from samcli.just
+        run: |
+          sed -i 's/--profile {{SAM_PROFILE}}//g' justlib/samcli.just
+
+      - name: Install Poetry
+        run: |
+          pip install poetry
+          poetry self add poetry-plugin-export
+          poetry --version
+
+      - name: Setup Poetry
+        run: |
+          just pyinstall
+
+      - name: pytest
+        run: |
+          just pytest-cov
+
+      - name: security check
+        run: |
+          just pysecurity-check
+
+      - name: build
+        run: |
+          just build
+
+      - name: deploy
+        run: |
+          export SAMOPT="--no-confirm-changeset"
+          just deploy
